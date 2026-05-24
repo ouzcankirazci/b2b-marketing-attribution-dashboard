@@ -1,0 +1,13 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# OS / logs
+.DS_Store
+streamlit_log.txt
+
+# Local / unrelated
+docs/
+cloudflared
