@@ -2,7 +2,7 @@
 
 An interactive marketing analytics case study for a B2B SaaS company. The project measures channel performance across the funnel—from sessions and first-touch leads to won revenue—and surfaces CAC, LTV, ROI, and multi-touch attribution in an executive Streamlit dashboard.
 
-![Executive dashboard](./visuals/screenshots/full%20dashboard.png)
+<img width="1440" height="777" alt="Screenshot 2026-05-25 at 01 33 56" src="https://github.com/user-attachments/assets/a1addf2e-b8c9-4da8-ba83-7be9ab115015" />
 
 ## Overview
 
@@ -140,7 +140,8 @@ pytest
 
 Google and Organic led top-of-funnel session volume. Traffic alone does not explain which channels generated quality pipeline or efficient revenue.
 
-![Sessions by channel](./visuals/charts/sessions_by_channel.png)
+
+<img width="1440" height="777" alt="Screenshot 2026-05-25 at 01 34 31" src="https://github.com/user-attachments/assets/d5139659-533a-4105-b941-756ef222ba25" />
 
 ### First-touch leads
 
@@ -150,7 +151,8 @@ Organic and Google tied for the highest first-touch lead volume. Webinar perform
 
 Organic and Partner generated the most won deals. Partner had the strongest lead-to-opportunity conversion rate—channel quality can differ meaningfully from top-of-funnel volume.
 
-![Leads vs won deals by channel](./visuals/charts/leads_vs_won_deals.png)
+<img width="1440" height="771" alt="Screenshot 2026-05-25 at 01 35 08" src="https://github.com/user-attachments/assets/ffb29ae6-58e1-4c7e-b156-4505bd335eb0" />
+
 
 ### Attribution
 
@@ -160,7 +162,8 @@ Google captured the highest same-source first-touch → last-touch won revenue p
 
 Partner was the most efficient channel on LTV:CAC and ROI. Google remained the strongest scalable paid channel. Webinar showed attractive average LTV but too few won customers to scale confidently. Brand underperformed as a first-touch acquisition driver in this sample.
 
-![CAC and LTV:CAC by channel](./visuals/charts/cac_ltv_ratio.png)
+<img width="1440" height="774" alt="Screenshot 2026-05-25 at 01 35 33" src="https://github.com/user-attachments/assets/08d4397a-fd94-4b1b-886b-59deab6c3ceb" />
+
 
 ### Recommendations
 
