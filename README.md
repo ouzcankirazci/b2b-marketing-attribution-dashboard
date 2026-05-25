@@ -1,106 +1,183 @@
 # B2B SaaS Marketing Attribution Analysis
 
+An interactive marketing analytics case study for a B2B SaaS company. The project measures channel performance across the funnel—from sessions and first-touch leads to won revenue—and surfaces CAC, LTV, ROI, and multi-touch attribution in an executive Streamlit dashboard.
+
+![Executive dashboard](./visuals/screenshots/full%20dashboard.png)
+
 ## Overview
-This project simulates a marketing analytics case study for a B2B SaaS company inspired by a Senior Marketing Analyst role at Remote. The analysis evaluates channel performance across the funnel, from sessions and first-touch leads to won revenue, CAC, LTV, and ROI.
+
+Marketing teams often over-index on traffic and last-touch attribution when making budget decisions. This project demonstrates why channel evaluation should combine volume, conversion quality, attribution context, and financial efficiency.
+
+**What you get**
+
+- A multi-page **Streamlit dashboard** (`app_new.py`) with filters by industry, region, and channel
+- A modular **Python analytics layer** (`src/`) for loading data, building the funnel, computing KPIs, and comparing attribution paths
+- **Mock CSV datasets** representing a realistic B2B buyer journey
+- **Static chart exports** and a **pytest** suite for core logic
 
 ## Business problem
-Marketing teams often over-index on traffic and last-touch attribution when making budget decisions. This project shows why channel evaluation should combine volume, conversion quality, attribution context, and financial efficiency.
+
+Surface-level reporting (sessions alone, or last-touch only) can misallocate budget. The analysis separates demand creation from demand capture and compares channels on funnel quality and unit economics—not just top-of-funnel volume.
 
 ## Project goals
+
 - Measure top-of-funnel traffic by source
 - Compare first-touch lead generation across channels
-- Evaluate funnel conversion from lead to opportunity to won deal
+- Evaluate funnel conversion from lead → opportunity → won deal
 - Compare first-touch and last-touch attribution paths
 - Estimate CAC, LTV, and ROI by channel
-- Turn findings into budget recommendations
+- Turn findings into actionable budget recommendations
 
-## Dataset
-This project uses a realistic mock dataset created in Python and analyzed in SQL. It includes:
-- `marketing_sessions.csv`
-- `leads.csv`
-- `opportunities.csv`
-- `revenue.csv`
-- `ad_spend.csv`
+## Tech stack
 
-The data simulates a B2B SaaS buyer journey across Google, Organic, LinkedIn, Webinar, Partner, and Brand.
+| Layer | Tools |
+|-------|--------|
+| App | [Streamlit](https://streamlit.io/), Plotly |
+| Analytics | Python, pandas, NumPy |
+| Data | CSV files in `data/` |
+| Tests | pytest |
 
-## Tools used
-- Python
-- pandas
-- NumPy
-- DuckDB / SQL
-- Matplotlib
-- Seaborn
-- Google Colab
-- Google Drive
+`duckdb` is listed in `requirements.txt` for optional SQL-style exploration; the committed app and `src/` modules use pandas.
 
 ## Project structure
+
 ```text
 marketing_attribution_project/
-├── data/
-├── sql/
-├── notebooks/
-├── notes/
+├── app_new.py              # Streamlit dashboard (entry point)
+├── requirements.txt
+├── data/                   # Mock marketing & revenue datasets
+│   ├── marketing_sessions.csv
+│   ├── leads.csv
+│   ├── opportunities.csv
+│   ├── revenue.csv
+│   └── ad_spend.csv
+├── src/
+│   ├── load_data.py        # CSV loading & funnel build
+│   ├── metrics.py          # KPIs, channel summary, LTV/CAC, ad efficiency
+│   ├── attribution.py      # Last-touch & first/last path analysis
+│   └── charts.py           # Plotly chart builders
+├── tests/                  # Unit tests for src modules
 ├── visuals/
-│   ├── charts/
-│   └── screenshots/
-├── README.md
-└── linkedin_post.md
+│   ├── charts/             # Exported analysis charts (README embeds)
+│   └── screenshots/        # Dashboard screenshot
+└── notes/
+    └── insights.md         # Working notes & takeaways
 ```
 
-## Analysis approach
-1. Generate mock session, lead, opportunity, revenue, and spend data in Python
-2. Save source files into Google Drive
-3. Load CSVs into DuckDB
-4. Run SQL for traffic, first-touch attribution, funnel conversion, and channel efficiency
-5. Create charts in Python
-6. Summarize business insights and recommendations
+## Dataset
 
-## Traffic analysis
-Google and Organic led top-of-funnel traffic volume, making them the strongest raw acquisition channels by sessions and users. However, traffic alone does not explain which channels generated quality pipeline or efficient revenue outcomes.
+Mock data simulates journeys across **Google**, **Organic**, **LinkedIn**, **Webinar**, **Partner**, and **Brand**.
+
+| File | Description |
+|------|-------------|
+| `marketing_sessions.csv` | Session-level UTM, geo, device |
+| `leads.csv` | Lead creation & firmographics |
+| `opportunities.csv` | Pipeline stages and outcomes |
+| `revenue.csv` | Won ARR by account |
+| `ad_spend.csv` | Channel spend for CAC/ROI |
+
+## Dashboard pages
+
+The sidebar navigates eight views (with industry, region, and channel filters):
+
+| Page | Focus |
+|------|--------|
+| Executive Summary | KPIs, channel overview, key insights |
+| Funnel | Sessions → leads → opportunities → won |
+| Channel Attribution | First-touch vs last-touch paths |
+| Revenue & ARR | Won revenue by channel |
+| Segmentation | Industry and region breakdowns |
+| Ad Spend ROI | Spend, CAC, LTV:CAC, ROI |
+| Retention | Customer retention views |
+| Region & Device | Geo and device mix from sessions |
+
+## Getting started
+
+### Prerequisites
+
+- Python 3.9+ (3.9 used in local development)
+
+### Install
+
+```bash
+git clone https://github.com/ouzcankirazci/b2b-marketing-attribution-dashboard.git
+cd b2b-marketing-attribution-dashboard
+
+python -m venv .venv
+source .venv/bin/activate   # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+### Run the dashboard
+
+```bash
+streamlit run app_new.py
+```
+
+Open the URL shown in the terminal (typically `http://localhost:8501`).
+
+### Run tests
+
+```bash
+pytest
+```
+
+## Analysis modules
+
+| Module | Responsibility |
+|--------|----------------|
+| `load_data.load_all_data()` | Load all CSVs from `data/` |
+| `load_data.build_funnel()` | Join sessions, leads, opportunities, revenue; derive first-touch |
+| `metrics.calculate_kpis()` | Sessions, leads, won deals, revenue, spend, ROI |
+| `metrics.channel_summary()` | Per-channel funnel and efficiency metrics |
+| `metrics.calculate_ltv_cac()` | LTV, CAC, LTV:CAC by channel |
+| `attribution.last_touch()` | Last UTM source before lead creation |
+| `attribution.attribution_paths()` | Won deals by first-touch × last-touch pairs |
+
+## Key findings
+
+### Traffic
+
+Google and Organic led top-of-funnel session volume. Traffic alone does not explain which channels generated quality pipeline or efficient revenue.
 
 ![Sessions by channel](./visuals/charts/sessions_by_channel.png)
 
-## First-touch lead analysis
-Organic and Google tied for the highest first-touch lead volume, while Webinar performed surprisingly well relative to its traffic level. This suggests that some channels can outperform on lead creation efficiency even if they do not rank first on raw traffic.
+### First-touch leads
 
-## Funnel quality
-Organic and Partner generated the most won deals in the funnel analysis, and Partner had the strongest lead-to-opportunity conversion rate. This shows that channel quality can differ meaningfully from top-of-funnel volume.
+Organic and Google tied for the highest first-touch lead volume. Webinar performed well relative to its traffic, suggesting some channels outperform on lead efficiency despite lower raw sessions.
+
+### Funnel quality
+
+Organic and Partner generated the most won deals. Partner had the strongest lead-to-opportunity conversion rate—channel quality can differ meaningfully from top-of-funnel volume.
 
 ![Leads vs won deals by channel](./visuals/charts/leads_vs_won_deals.png)
 
-## Attribution comparison
-The attribution path analysis showed that Google captured the highest same-source first-touch to last-touch won revenue path, while Organic frequently appeared as a demand-creation channel whose journeys closed through other sources. Partner also stood out as a high-value source despite lower volume, which shows why first-touch and last-touch should be analyzed together rather than treated as interchangeable.
+### Attribution
 
-## Efficiency analysis
-Partner was the most efficient acquisition channel based on LTV:CAC and ROI, while Google remained the strongest scalable paid channel. Webinar showed high average LTV but too few won customers to treat it as a proven scale channel, and Brand underperformed as a first-touch acquisition source in this sample.
+Google captured the highest same-source first-touch → last-touch won revenue path. Organic often acted as a demand-creation channel whose journeys closed through other sources. Partner stood out on revenue efficiency despite lower volume—first-touch and last-touch should be analyzed together, not treated as interchangeable.
+
+### Efficiency
+
+Partner was the most efficient channel on LTV:CAC and ROI. Google remained the strongest scalable paid channel. Webinar showed attractive average LTV but too few won customers to scale confidently. Brand underperformed as a first-touch acquisition driver in this sample.
 
 ![CAC and LTV:CAC by channel](./visuals/charts/cac_ltv_ratio.png)
 
-## Key insights
-- Google and Organic led on traffic volume.
-- Organic and Google tied for first-touch lead generation.
-- Organic and Partner led on won deals.
-- Partner was the strongest channel for efficiency based on ROI and LTV:CAC.
-- Google was the strongest scale channel.
-- Webinar looked promising in customer value but lacked enough won volume for confident scaling.
-- Brand was weak as a first-touch acquisition driver in this dataset.
+### Recommendations
 
-## Recommendations
-- Increase investment in Partner because it delivered the strongest efficiency and revenue quality.
-- Keep Google as a core growth channel, but optimize for downstream conversion quality rather than traffic alone.
-- Continue testing Webinar before scaling because its average LTV is attractive but current won-customer volume is too small.
-- Avoid making budget decisions from traffic or last-touch attribution in isolation.
-- Use multiple attribution views to separate demand creation from demand capture.
+- Increase investment in **Partner** (strongest efficiency and revenue quality)
+- Keep **Google** as a core growth channel; optimize for downstream conversion, not traffic alone
+- Continue testing **Webinar** before scaling (high LTV, low won volume)
+- Avoid budget decisions from traffic or last-touch attribution in isolation
+- Use multiple attribution views to separate demand creation from demand capture
 
-## How to run
-1. Open the notebook in Google Colab
-2. Mount Google Drive
-3. Generate or load the CSV files
-4. Load the CSVs into DuckDB
-5. Run SQL queries in order
-6. Create the charts
-7. Review `notes/insights.md` for working notes and business takeaways
+## Additional notes
 
-## Why this project matters
-This case study is designed to show marketing analytics thinking beyond surface-level reporting. It demonstrates how SQL, Python, attribution analysis, funnel conversion, and financial metrics can be combined into practical channel recommendations suitable for a portfolio, interview discussion, and LinkedIn post.
+Working analysis notes and attribution path commentary live in [`notes/insights.md`](./notes/insights.md).
+
+## Why this project
+
+The case study shows marketing analytics beyond surface reporting: combining funnel conversion, multi-touch attribution, and financial metrics into practical channel recommendations—suitable for a portfolio, interview discussion, or stakeholder demo.
+
+## License
+
+This repository is shared as a portfolio / case-study project. Add a license file if you plan to open-source it formally.
